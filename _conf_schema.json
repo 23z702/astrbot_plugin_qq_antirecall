@@ -1,0 +1,150 @@
+{
+  "enabled": {
+    "description": "启用防撤回",
+    "type": "bool",
+    "default": true,
+    "hint": "总开关。关闭后既不缓存消息，也不补发撤回内容。"
+  },
+  "enable_group": {
+    "description": "监控群聊",
+    "type": "bool",
+    "default": true,
+    "hint": "是否缓存群聊消息并在撤回时补发。"
+  },
+  "enable_private": {
+    "description": "监控私聊",
+    "type": "bool",
+    "default": true,
+    "hint": "是否缓存好友私聊消息并在对方撤回时补发。"
+  },
+  "enable_text": {
+    "description": "缓存文本",
+    "type": "bool",
+    "default": true,
+    "hint": "文本内容会被完整保存，超过长度上限会截断。"
+  },
+  "enable_image": {
+    "description": "缓存图片",
+    "type": "bool",
+    "default": true,
+    "hint": "撤回后重新发送图片。开启媒体落盘时会把图片下载到本地，避免链接过期。"
+  },
+  "enable_video": {
+    "description": "缓存视频",
+    "type": "bool",
+    "default": true,
+    "hint": "撤回后重新发送视频。视频文件较大，建议同时设置合理的体积上限。"
+  },
+  "cache_ttl": {
+    "description": "缓存保留时间（秒）",
+    "type": "int",
+    "default": 300,
+    "hint": "QQ 普通成员撤回时限为 2 分钟，管理员可撤回更早的消息；300 秒通常够用。"
+  },
+  "max_entries": {
+    "description": "最多缓存条数",
+    "type": "int",
+    "default": 2000,
+    "hint": "超出后按时间淘汰最旧的记录，防止长时间运行占用内存。"
+  },
+  "max_text_len": {
+    "description": "单条文本最大长度",
+    "type": "int",
+    "default": 2000,
+    "hint": "超长文本会被截断并加上省略号，避免补发时超出平台限制。"
+  },
+  "download_media": {
+    "description": "媒体落盘",
+    "type": "bool",
+    "default": true,
+    "hint": "收到图片/视频后异步下载到 data/plugin_data/astrbot_plugin_qq_antirecall/media。关闭后仅在撤回时使用原始链接，链接过期可能补发失败。"
+  },
+  "max_media_mb": {
+    "description": "单个媒体体积上限（MB）",
+    "type": "int",
+    "default": 30,
+    "hint": "超过该体积的图片/视频不落盘，撤回时用原始链接兜底。"
+  },
+  "media_timeout": {
+    "description": "媒体下载超时（秒）",
+    "type": "int",
+    "default": 30,
+    "hint": "视频较大或网络较慢时可适当调大。"
+  },
+  "recall_wait_media": {
+    "description": "撤回时等待媒体就绪（秒）",
+    "type": "int",
+    "default": 8,
+    "hint": "视频刚发出就被撤回时，媒体可能还在下载。最多等这么久再补发；设为 0 表示不等待，直接用已有内容。"
+  },
+  "ignore_self": {
+    "description": "忽略机器人自己的消息",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后不缓存机器人发送的消息。"
+  },
+  "group_whitelist": {
+    "description": "只监控这些群（留空为全部群）",
+    "type": "list",
+    "items": {
+      "type": "string"
+    },
+    "default": [],
+    "hint": "填群号，例如 123456789。留空表示监控机器人所在的所有群。"
+  },
+  "user_blacklist": {
+    "description": "不监控这些用户",
+    "type": "list",
+    "items": {
+      "type": "string"
+    },
+    "default": [],
+    "hint": "填 QQ 号。名单内用户的消息不会被缓存，也不会触发补发。"
+  },
+  "notify_template": {
+    "description": "撤回提示模板",
+    "type": "string",
+    "default": "【防撤回】{sender_name}({sender_id}) 撤回了一条消息：",
+    "hint": "可用占位符：{sender_name} {sender_id} {group_id} {chat_id} {time}。留空则不显示提示，直接发原文。"
+  },
+  "operator_template": {
+    "description": "被他人撤回时的提示模板",
+    "type": "string",
+    "default": "【防撤回】{sender_name}({sender_id}) 的消息被 {operator_name}({operator_id}) 撤回：",
+    "hint": "管理员撤回群成员消息时使用。可用占位符同上，另有 {operator_name} {operator_id}。"
+  },
+  "silent_when_missing": {
+    "description": "缓存未命中时静默",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，撤回的消息不在缓存中（已过期或插件启动前发送）时不发任何提示。"
+  },
+  "delivery_mode": {
+    "description": "撤回内容去向",
+    "type": "string",
+    "options": ["log", "session", "forward"],
+    "default": "log",
+    "hint": "log=只写日志，不发到任何群（默认）；session=发回原会话；forward=发到下面的转发目标。"
+  },
+  "log_enabled": {
+    "description": "记录撤回日志",
+    "type": "bool",
+    "default": true,
+    "hint": "把群号、被撤回的人、撤回操作者、内容记录到 data/plugin_data/astrbot_plugin_qq_antirecall/recall_log.jsonl，可用 /撤回记录 查看。"
+  },
+  "log_keep": {
+    "description": "日志最多保留条数",
+    "type": "int",
+    "default": 1000,
+    "hint": "日志文件超过 2MB 时自动裁剪，只保留最近这么多条。"
+  },
+  "forward_targets": {
+    "description": "转发目标（留空为原会话）",
+    "type": "list",
+    "items": {
+      "type": "string"
+    },
+    "default": [],
+    "hint": "填了之后撤回内容只发到这些会话，不再发回原会话。支持 group:123456 / private:123456，也支持 #群号 / @QQ号。也可以直接用指令 /撤回转发 #群号 @QQ号 设置。"
+  }
+}

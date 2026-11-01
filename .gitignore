@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# AstrBot 运行时数据（缓存、媒体、日志）
+data/
+
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

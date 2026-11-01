@@ -1,0 +1,9 @@
+name: astrbot_plugin_qq_antirecall
+display_name: QQ 防撤回
+desc: 缓存群聊/私聊里的文本、图片、视频消息，消息被撤回时自动补发到原会话
+short_desc: 撤回也删不掉，文本图片视频全留存
+version: v1.0.0
+author: bixie
+astrbot_version: ">=4.0.0"
+support_platforms:
+  - aiocqhttp
