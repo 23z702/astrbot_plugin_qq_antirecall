@@ -1,5 +1,7 @@
 # QQ 防撤回（astrbot_plugin_qq_antirecall）
 
+仓库地址：https://github.com/23z702/astrbot_plugin_qq_antirecall
+
 给 AstrBot 用的 QQ 防撤回插件：缓存群聊 / 私聊中的**文本、图片、视频**，消息被撤回时把「群号、被撤回的人、谁撤回的、撤回内容」记到日志，可用指令随时查看，也可以选择发回原会话或转发到指定群 / 人。
 
 仅支持 `aiocqhttp`（OneBot v11）平台，例如 NapCat、Lagrange。
@@ -117,3 +119,7 @@
 - **缓存只在内存中**，插件重启后之前的消息无法补发；重启前的撤回不会提示。
 - **管理员撤回更早的消息**时，只要还在 `cache_ttl` 范围内就能补发，可适当调大该值。
 - 媒体文件保存在 `data/plugin_data/`，不会随插件更新丢失；TTL 到期自动清理。
+
+## 开源协议
+
+[MIT](./LICENSE) © 2026 bixie
